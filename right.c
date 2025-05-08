@@ -1,48 +1,48 @@
+
 #include <stdio.h>
-#include <string.h>
+#include <math.h>
 
-int main()
-{
-    int T;
-    scanf("%d", &T);
-    while (T--)
-    {
-        int M;
-        int print[256] = {0};
-        scanf("%d", &M);
+int is_prime(int n) {
+    if (n == 1) return 1;  // According to problem output sample, treat 1 as a "prime"
+    if (n < 2) return 0;
+    for (int i = 2; i <= sqrt(n); i++) {
+        if (n % i == 0)
+            return 0;
+    }
+    return 1;
+}
 
-        for (int i = 0; i < M; i++)
-        {
-            int val;
-            char ch;
-            scanf(" %c %d", &ch, &val);
-            print[(unsigned char)ch] = val;
-        }
+int main() {
+    int n, c;
+    while (scanf("%d %d", &n, &c) == 2) {
+        int primes[1000];
+        int count = 0;
 
-        int cent;
-        scanf("%d", &cent);
-        getchar();
-        int count;
-        scanf("%d", &count);
-        getchar();
-        char line[10001];
-        long long sum = 0;
-        for (int i = 0; i < count; i++)
-        {
-            fgets(line, sizeof(line), stdin);
-            for (int j = 0; line[j]; j++)
-            {
-                sum += print[(unsigned char)line[j]];
+        // Collect primes up to n
+        for (int i = 1; i <= n; i++) {
+            if (is_prime(i)) {
+                primes[count++] = i;
             }
         }
-        printf("%lld.%02lld$\n", sum / 100, sum % 100);
-        if (sum >= cent)
-        {
-            printf("Yes\n");
+
+        int start;
+        int print_count;
+
+        // Decide how many primes to print
+        if (count <= c) {
+            start = 0;
+            print_count = count;
+        } else {
+            start = count - c;
+            print_count = c;
         }
-        else
-        {
-            printf("No\n");
+
+        // Output format
+        printf("%d %d:", n, c);
+        for (int i = start; i < count; i++) {
+            printf(" %d", primes[i]);
         }
+        printf("\n\n");
     }
+    return 0;
 }
