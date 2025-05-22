@@ -33,7 +33,7 @@ int main()
         int n=0;
         for(int j=0;j<=100;j++){
             if(count[j]>1){
-                printf("%d %d %d",j/10,j%10,count[j]);
+                printf("%d %d %d\n",j/10,j%10,count[j]);
             }
         }
     }
