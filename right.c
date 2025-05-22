@@ -1,72 +1,40 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-
-int cool_word(char *word)
-{
-    int freq[26] = {0};
-    int used_freq[10000] = {0};  // More room for safety
-    int letter = 0;
-
-    for (int i = 0; word[i]; i++)
-    {
-        if (!islower(word[i])) // Ensure character is lowercase a-z
-            return 0;
-
-        int idx = word[i] - 'a';
-
-        if (freq[idx] == 0)
-            letter++;
-
-        freq[idx]++;
-    }
-
-    if (letter < 2)
-        return 0;
-
-    for (int i = 0; i < 26; i++)
-    {
-        if (freq[i] > 0)
-        {
-            if (used_freq[freq[i]])
-                return 0;
-            used_freq[freq[i]] = 1;
-        }
-    }
-
-    return 1;
-}
 
 int main()
 {
-    int n;
-    char word[10000];
-    int count = 1;
-    char recode[10000][1000]; // Store up to 40 cool words, each up to 39 chars
-    int word_s;
+    int T;
+    scanf("%d", &T);
 
-    while (scanf("%d", &n) != EOF)
+    while (T--)
     {
-        word_s = 0;
-
-        for (int i = 0; i < n; i++)
+        int m;
+        scanf("%d", &m);
+        int a, b;
+        int count[1000] = {0};
+        int num[100]={0};
+        long long res=0;
+        int s=0;
+        int r=1;
+        for (int i = 0; i < m; i++)
         {
-            scanf("%s", word);
-            if (cool_word(word))
-            {
-                strcpy(recode[word_s], word);
-                word_s++;
+            scanf("%d %d", &a, &b);
+            int key = a < b ? a * 10 + b : b * 10 + a;
+
+            res += count[key];
+            count[key]++;
+        }
+        printf("%lld\n", res);
+        for(int i=0;i<=100;i++){
+            if(count[i]>1){
+                s++;
             }
         }
-
-        printf("Case %d: %d\n", count++, word_s);
-
-        for (int i = 0; i < word_s; i++)
-        {
-            printf("%s\n", recode[i]); // Print each word on a new line
+        printf("%d\n",s);
+        int n=0;
+        for(int j=0;j<=100;j++){
+            if(count[j]>1){
+                printf("%d %d %d",j/10,j%10,count[j]);
+            }
         }
     }
-
-    return 0;
 }
